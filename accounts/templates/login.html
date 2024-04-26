@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block doctitle %}ARTICLES{% endblock doctitle %}
+
+{% block content %}
+
+<!-- Display Flash Messages -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <p class="alert alert-success">{{ message }}</p>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if not request.user.is_authenticated %}
+    <h1 class="m-4">Log In</h1>
+    <form method="POST" action="." class="m-4">
+        {% csrf_token %}
+        {% if error %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endif %}
+        <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input name="username" type="text" class="form-control" id="username">
+        </div>
+        <div class="mb-3">
+        <label for="pass1" class="form-label">Password:</label>
+        <input name="pass1" type="password" class="form-control" id="pass1">
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+
+    <p class="m-4">New User? <a href="{% url 'register' %}">Sign In</a></p>
+
+{% else %}
+    <h1 class="mt-4">Log Out</h1>
+    <p>You're already logged in. Would you like to <a href="{% url 'logout' %}">logout</a>?</p>
+{% endif %}
+
+{% endblock content %}

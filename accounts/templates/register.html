@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block doctitle %}ARTICLES{% endblock doctitle %}
+
+{% block content %}
+
+{% if not request.user.is_authenticated %}
+    <h1 class="m-4">Sign In</h1>
+    <form method="POST" action="." class="m-4">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="user_name" class="form-label">Username</label>
+            <!-- {{ form.username.label_tag }} -->
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="alert alert-danger --bs-danger-border-subtle">
+                    {% for error in form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="pass1" class="form-label">Password</label>
+            {{ form.password1 }}
+            <p>
+                Your password can't be too similar to your other personal information.<br>
+                Your password must contain at least 8 characters.<br>
+                Your password can't be a commonly used password.<br>
+                Your password can't be entirely numeric.
+            </p>
+            {% if form.password1.errors %}
+                <div class="alert alert-danger --bs-danger-border-subtle">
+                    {% for error in form.password1.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="pass2" class="form-label">Confirm Password</label>
+            {{ form.password2 }}
+            <p>Enter the same password as before, for verification.</p>
+            {% if form.password2.errors %}
+                <div class="alert alert-danger --bs-danger-border-subtle">
+                    {% for error in form.password2.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+    <p class="m-4">Already an user? <a href="{% url 'login' %}">Log In</a></p>
+{% else %}
+    <h1 class="mt-4">Log Out</h1>
+    <p>You're already logged in, can't sign in. Would you like to <a href="{% url 'logout' %}">logout</a>?</p>
+{% endif %}
+
+{% endblock content %}

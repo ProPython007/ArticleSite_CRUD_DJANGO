@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block doctitle %}ARTICLES{% endblock doctitle %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <h1 class="m-4">Log Out</h1>
+    <form method="POST" action="." class="m-4">
+        {% csrf_token %}
+        <p>Are you sure you want to logout?</p>
+        <button type="submit" class="btn btn-primary">Yes, Logout</button>
+    </form>
+{% else %}
+    <h1 class="mt-4">Log In</h1>
+    <p>You're not logged in. Would you like to <a href="{% url 'login' %}">login</a>?</p>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block doctitle %}ARTICLES{% endblock doctitle %}
+
+{% block content %}
+
+{% if not obj %}
+    <h1 class="m-4">CREATE ARTICLE</h1>
+    {% for field_errors in form.errors.values %}
+        {% for error in field_errors %}
+            <p class="alert alert-danger --bs-danger-border-subtle">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+    <form method="POST" action="." class="m-4">
+        {% csrf_token %}
+        <div class="mb-3">
+        <label for="input_title" class="form-label">Article Title</label>
+        <!-- <input name="title" type="text" class="form-control" id="input_title"> -->
+        {{ form.title }}
+        </div>
+        <div class="mb-3">
+        <label for="input_content" class="form-label">Article Content</label>
+        <!-- <textarea name="content" class="form-control" id="input_content" rows="4"></textarea> -->
+        {{ form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% else %}
+    <h1 class="m-4">Article Tile: {{obj.title}}</h1>
+    <h3 class="mt-4 ms-4">Article Content:</h3>
+    <p class="ms-4">{{obj.content}}</p>
+
+    <br>
+    <br>
+    {% if request.user == obj.user %}
+        <a class="m-4" href="{% url 'update_post' obj.id %}">Update Post</a>
+        <br><br>
+        <a class="m-4" href="{% url 'delete_post' obj.id %}">Delete Post</a>
+    {% endif %}
+
+{% endif %}
+
+{% endblock content %}

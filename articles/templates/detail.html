@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block doctitle %}ARTICLES{% endblock doctitle %}
+
+{% block content %}
+
+    <h1 class="mt-4 ms-4">{{article.title}}</h1>
+    <small class="ms-4">by {{article.user}}</small>
+    <p class="m-4">{{article.content}}</p>
+    <br>
+    <br>
+    {% if request.user == article.user %}
+        <a class="m-4" href="{% url 'update_post' article.id %}">Update Post</a>
+        <br><br>
+        <a class="m-4" href="{% url 'delete_post' article.id %}">Delete Post</a>
+    {% endif %}
+
+{% endblock content %}
